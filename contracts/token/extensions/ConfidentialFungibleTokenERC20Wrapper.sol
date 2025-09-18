@@ -130,12 +130,20 @@ abstract contract ConfidentialFungibleTokenERC20Wrapper is ConfidentialFungibleT
     /**
      * @dev Fills an unwrap request for a given request id related to a decrypted unwrap amount.
      */
-    function finalizeUnwrap(uint256 requestID, uint64 amount, bytes[] memory signatures) public virtual {
+    function finalizeUnwrap(        
+        uint256 requestId,
+        bytes memory cleartexts,
+        bytes memory decryptionProof
+    ) public virtual {
         FHE.checkSignatures(requestID, signatures);
         address to = _receivers[requestID];
         require(to != address(0), ConfidentialFungibleTokenInvalidGatewayRequest(requestID));
         delete _receivers[requestID];
 
+        (uint64 amount) = abi.decode(
+            cleartexts,
+            (uint64)
+        );
         SafeERC20.safeTransfer(underlying(), to, amount * rate());
     }
 
