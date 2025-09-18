@@ -1,14 +1,13 @@
 {
-  "name": "@openzeppelin/confidential-contracts",
-  "description": "Smart Contract library for use with confidential coprocessors",
-  "version": "0.2.0",
+  "name": "new-confidential-contracts",
+  "description": "Forked from openzeppelin/confidential-contracts. For Zama 0.8.0.",
+  "version": "0.1.0",
   "files": [
     "**/*.sol",
     "/build/contracts/*.json",
     "!/mocks/**/*"
   ],
   "scripts": {
-    "prepack": "bash ../scripts/prepack.sh",
     "prepare-docs": "cd ..; npm run prepare-docs"
   },
   "repository": {
@@ -32,7 +31,7 @@
   },
   "homepage": "https://openzeppelin.com/contracts/",
   "peerDependencies": {
-    "@fhevm/solidity": "0.7.0",
+    "@fhevm/solidity": "0.8.0",
     "@openzeppelin/contracts": "^5.3.0",
     "@openzeppelin/contracts-upgradeable": "^5.3.0"
   }
