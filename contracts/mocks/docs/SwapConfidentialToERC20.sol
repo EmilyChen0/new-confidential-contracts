@@ -34,11 +34,20 @@ contract SwapConfidentialToERC20 {
         _receivers[requestID] = msg.sender;
     }
 
-    function finalizeSwap(uint256 requestID, uint64 amount, bytes[] memory signatures) public virtual {
-        FHE.checkSignatures(requestID, signatures);
+    function finalizeSwap(
+        uint256 requestId,
+        bytes memory cleartexts,
+        bytes memory decryptionProof
+    ) public virtual {
+        FHE.checkSignatures(requestId, cleartexts, decryptionProof);
         address to = _receivers[requestID];
         require(to != address(0), SwapConfidentialToERC20InvalidGatewayRequest(requestID));
         delete _receivers[requestID];
+
+        (uint64 amount) = abi.decode(
+            cleartexts,
+            (uint64)
+        );
 
         if (amount != 0) {
             SafeERC20.safeTransfer(_toToken, to, amount);
